@@ -29,4 +29,14 @@ public class UserController {
                  public User registerUser(@RequestBody RegisterRequest request) {
                 	 return userService.registerUser(request);
                  }
+                 
+                 @GetMapping("/user/dashboard")
+                 public String userDashboard() {
+                	 return "Welcome User";
+                 }
+                 
+                 @GetMapping("/admin/dashboard")
+                 public String adminDashboard() {
+                	 return "Welcom ADMIN";
+                 }
 }

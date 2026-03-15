@@ -4,13 +4,16 @@ import java.util.Date;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.stereotype.Service;
+
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
+@Service
 public class JwtService {
              private final SecretKey SECRET_KEY =
-            		 Keys.hmacShaKeyFor("mysecretkeymysecretkey123".getBytes());
+            		 Keys.hmacShaKeyFor("mysecretkeymysecretkeymysecretkey123456".getBytes());
              
              public String generateToken(String email) {
             	 return Jwts.builder()
