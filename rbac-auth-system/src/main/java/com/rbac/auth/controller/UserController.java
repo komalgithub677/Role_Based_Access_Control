@@ -21,12 +21,10 @@ public class UserController {
                  public User saveUser(@RequestBody User user) {
                 	 return userService.saveUser(user);
                  }
-                 
                  @GetMapping("/all")
                  public List<User> getUsers(){
                 	 return userService.getAllUsers();
                  }
-                 
                  @PostMapping("/register")
                  public User registerUser(@RequestBody RegisterRequest request) {
                 	 return userService.registerUser(request);
