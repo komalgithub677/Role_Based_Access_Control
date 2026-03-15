@@ -6,15 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.rbac.auth.dto.LoginRequest;
 import com.rbac.auth.dto.RegisterRequest;
 import com.rbac.auth.entity.User;
 import com.rbac.auth.repository.UserRepository;
+import com.rbac.auth.security.JwtService;
 
 @Service
 public class UserService {
             @Autowired
             private UserRepository userRepository;
             
+            @Autowired
+            private JwtService jwtService;
             @Autowired
             private BCryptPasswordEncoder passwordEncoder;
             
@@ -35,5 +39,19 @@ public class UserService {
             	user.setRole(request.getRole());
             	return userRepository.save(user);
             	
+            }
+            public String login(LoginRequest request) {
+
+                User user = userRepository.findByEmail(request.getEmail());
+
+                if (user == null) {
+                    throw new RuntimeException("User not found");
+                }
+
+                if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+                    throw new RuntimeException("Invalid password");
+                }
+
+                return jwtService.generateToken(user.getEmail());
             }
 }
