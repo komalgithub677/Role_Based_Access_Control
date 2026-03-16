@@ -10,9 +10,7 @@ function Login() {
   const onSubmit = async (data: any) => {
 
     try {
-
       const res = await API.post("/users/login", data);
-
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("role", res.data.role);
       localStorage.setItem("email", res.data.email);

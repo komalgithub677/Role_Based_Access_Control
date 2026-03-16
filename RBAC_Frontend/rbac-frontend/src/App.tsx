@@ -1,30 +1,32 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
-
 import ProtectedRoute from "./routes/ProtectedRoute";
 
-function App(){
+function App() {
 
-  return(
+  return (
 
     <BrowserRouter>
 
       <Routes>
 
-        <Route path="/" element={<Login/>}/>
+        <Route path="/" element={<Home />} />
 
-        <Route path="/register" element={<Register/>}/>
+        <Route path="/login" element={<Login />} />
+
+        <Route path="/register" element={<Register />} />
 
         <Route
-        path="/dashboard"
-        element={
-          <ProtectedRoute>
-            <Dashboard/>
-          </ProtectedRoute>
-        }
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
         />
 
       </Routes>
