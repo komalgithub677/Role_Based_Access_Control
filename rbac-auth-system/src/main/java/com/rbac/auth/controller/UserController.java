@@ -14,6 +14,7 @@ import com.rbac.auth.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
+@CrossOrigin(origins = "http://localhost:5173")  
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -66,11 +67,9 @@ public class UserController {
 
         return "User deleted successfully";
     }
-    
+
     @GetMapping("/public")
     public String publicContent() {
         return "Public content accessible by anyone";
     }
-    
-    
 }
