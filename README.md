@@ -2,11 +2,11 @@
 
 ## 📌 Project Overview
 
-This project is a **Full Stack Authentication and Role-Based Access Control (RBAC) System** built using **Java Spring Boot (backend)** and **React + TypeScript (frontend)**.
+This project is a **Full Stack Authentication and Role-Based Access Control (RBAC) System** built using **Java Spring Boot (Backend)** and **React + TypeScript (Frontend)**.
 
-The system allows users to register, login, and access content based on their assigned roles using **JWT-based authentication and role-based authorization**.
+The application allows users to **register, login, and access content based on their assigned roles** using **JWT-based authentication** and **role-based authorization**.
 
-The application demonstrates secure authentication practices and structured full-stack architecture using modern development technologies.
+This project demonstrates secure authentication practices and a structured full-stack architecture using modern technologies.
 
 ---
 
@@ -14,92 +14,103 @@ The application demonstrates secure authentication practices and structured full
 
 ## Authentication
 
-* User registration with:
+Users can securely register and log in using email and password.
 
-  * Name
-  * Email
-  * Password
-  * Role (USER / ADMIN)
-* Secure login using email and password
-* JWT token generation after successful login
-* Token-based authentication for protected APIs
+Registration includes:
+
+- Name
+- Email
+- Password
+- Role (USER / ADMIN)
+
+Authentication features:
+
+- Password encryption using **BCrypt**
+- **JWT Token generation** after successful login
+- Token-based authentication for protected APIs
+- Secure backend validation using **Spring Security**
+
+---
 
 ## Authorization (RBAC)
 
-Two roles are implemented:
+The system implements **Role-Based Access Control** with two roles.
 
-| Role  | Permissions                |
-| ----- | -------------------------- |
-| USER  | Access user-level content  |
+| Role | Permissions |
+|-----|-------------|
+| USER | Access user-level content |
 | ADMIN | Access admin-level content |
 
 ### Access Rules
 
-| Endpoint      | Access |
-| ------------- | ------ |
+| Endpoint | Access |
+|--------|--------|
 | `/api/public` | Public |
-| `/api/user`   | USER   |
-| `/api/admin`  | ADMIN  |
+| `/api/users/user/dashboard` | USER |
+| `/api/users/admin/dashboard` | ADMIN |
+
+Frontend components are rendered **dynamically based on the logged-in user's role**.
 
 ---
 
 # 🖥️ Frontend (React + TypeScript)
 
-Frontend is built using **modern React ecosystem tools**.
+The frontend is built using modern React tools.
 
 ### Technologies Used
 
-* React
-* TypeScript
-* Vite
-* React Router
-* React Query
-* Axios
-* React Hook Form
-* TailwindCSS
+- React
+- TypeScript
+- Vite
+- React Router
+- Axios
+- React Hook Form
+- TailwindCSS
 
 ### Frontend Features
 
-* Register Page
-* Login Page
-* Dashboard Page
-* JWT storage using **localStorage**
-* Protected routes
-* Role-based UI rendering
-* Conditional content display based on role
+- Home / Welcome Page
+- Register Page
+- Login Page
+- Role-Based Dashboard
+- JWT storage using **localStorage**
+- Protected routes
+- Conditional rendering based on user role
 
-### Role-Based UI Sections
+### Role-Based UI Components
 
-* User Content Card (visible only for USER)
-* Admin Content Card (visible only for ADMIN)
+- **User Content Card** → visible only for USER
+- **Admin Content Card** → visible only for ADMIN
 
 ---
 
 # ⚙️ Backend (Spring Boot)
 
-Backend is developed using **Spring Boot with Spring Security and JWT authentication**.
+The backend is built using **Spring Boot with Spring Security and JWT authentication**.
 
 ### Technologies Used
 
-* Java 17
-* Spring Boot
-* Spring Security
-* JWT Authentication
-* Spring Data JPA
-* Hibernate
-* MapStruct
-* Lombok
-* Maven
-* Swagger / OpenAPI
+- Java 17
+- Spring Boot
+- Spring Security
+- JWT Authentication
+- Spring Data JPA
+- Hibernate
+- MapStruct
+- Lombok
+- Maven
+- Swagger / OpenAPI
+- MySQL
 
 ### Backend Features
 
-* User & Role entities
-* JWT authentication implementation
-* Role-based endpoint authorization
-* DTO-based request/response structure
-* RESTful API design
-* Swagger API documentation
+- User & Role entities
+- Secure JWT authentication
+- Role-based endpoint authorization
+- DTO-based request/response structure
+- RESTful API architecture
+- Swagger API documentation
+- BCrypt password encryption
 
 ---
 
@@ -120,22 +131,25 @@ Role_Based_Access_Control
 ├── frontend
 │   ├── components
 │   ├── pages
-│   ├── services
-│   ├── hooks
-│   └── routes
+│   ├── routes
+│   ├── api
+│   └── assets
+│
+└── screenshots
 ```
 
 ---
 
 # 🔐 Authentication Flow
 
-1. User registers with role (USER / ADMIN)
-2. User logs in with email & password
+1. User registers with role **USER or ADMIN**
+2. User logs in using email & password
 3. Backend verifies credentials
-4. Backend generates JWT token
+4. Backend generates **JWT Token**
 5. Frontend stores token in **localStorage**
-6. Token is attached to API requests
-7. Backend validates token before accessing protected routes
+6. Token is attached to protected API requests
+7. Backend validates token using JWT filter
+8. Access is granted based on **user role**
 
 ---
 
@@ -150,26 +164,41 @@ GET /api/public
 ### User Endpoint
 
 ```
-GET /api/user
+GET /api/users/user/dashboard
 ```
 
 ### Admin Endpoint
 
 ```
-GET /api/admin
+GET /api/users/admin/dashboard
+```
+
+### Authentication Endpoints
+
+```
+POST /api/users/register
+POST /api/users/login
 ```
 
 ---
 
 # 📊 Swagger API Documentation
 
-Swagger is integrated for API documentation.
+Swagger UI is integrated for API testing.
 
-After running the backend, access Swagger UI:
+After running the backend, open:
 
 ```
-http://localhost:8080/swagger-ui.html
+http://localhost:8080/swagger-ui/index.html
 ```
+
+Swagger allows testing APIs such as:
+
+- Register User
+- Login
+- Get Profile
+- Admin Delete User
+- Role-based endpoints
 
 ---
 
@@ -198,7 +227,7 @@ mvn clean install
 mvn spring-boot:run
 ```
 
-Backend will start on:
+Backend runs on:
 
 ```
 http://localhost:8080
@@ -208,7 +237,7 @@ http://localhost:8080
 
 # Frontend Setup
 
-Navigate to frontend folder:
+Navigate to the frontend folder:
 
 ```bash
 cd frontend
@@ -234,39 +263,106 @@ http://localhost:5173
 
 ---
 
-# 🎯 Optional Features (Bonus)
+# 🗄️ Database Setup
 
-* Logout functionality
-* Password validation rules
-* Loading states
-* Error handling
-* Responsive UI design
+The project uses **MySQL Database**.
 
----
+Example configuration in `application.properties`:
 
-# 📷 Screenshots
+```
+spring.datasource.url=jdbc:mysql://localhost:3306/rbac_db
+spring.datasource.username=root
+spring.datasource.password=yourpassword
 
-(Add screenshots of the application here)
-
-Example:
-
-* Register Page
-* Login Page
-* Dashboard
-* Role-Based Content Display
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+```
 
 ---
 
-# 📽️ Demo
+# 📷 Application Screenshots
 
-(Optional)
+## Home Page
 
-You may add a short demo video showing:
+![Home Page](screenshots/home.png)
 
-* User registration
-* Login
-* Role-based dashboard content
-* Protected routes
+The welcome page that allows users to navigate to login or registration.
+
+---
+
+## Register Page
+
+![Register Page](screenshots/register.png)
+
+Users can create an account by providing:
+
+- Name
+- Email
+- Password
+- Role (USER / ADMIN)
+
+---
+
+## Login Page
+
+![Login Page](screenshots/login.png)
+
+Registered users log in using their email and password.  
+After successful login, a **JWT token** is generated.
+
+---
+
+## Admin Dashboard
+
+![Admin Dashboard](screenshots/admin-dashboard.png)
+
+Admin users can access administrative controls such as:
+
+- Viewing registered users
+- Deleting users
+- System monitoring
+
+---
+
+## User Dashboard
+
+![User Dashboard](screenshots/user-dashboard.png)
+
+User dashboard allows access to personal profile and user-level content.
+
+---
+
+## Swagger API Documentation
+
+![Swagger UI](screenshots/swagger.png)
+
+Swagger provides interactive API testing for backend endpoints.
+
+---
+
+## Database (MySQL Workbench)
+
+![Database](screenshots/database.png)
+
+User data stored securely in MySQL database.
+
+---
+
+## Backend Running (Spring Boot)
+
+![Backend Running](screenshots/backend-running.png)
+
+Spring Boot backend running successfully with Hibernate and MySQL connection.
+
+---
+
+# 🎯 Optional Features Implemented
+
+- Logout functionality
+- Password validation
+- Responsive UI using TailwindCSS
+- Role-based UI rendering
+- Swagger API documentation
 
 ---
 
@@ -274,12 +370,13 @@ You may add a short demo video showing:
 
 This project demonstrates:
 
-* JWT-based authentication
-* Role-Based Access Control (RBAC)
-* Secure API development
-* Full-stack architecture
-* Modern React development practices
-* Spring Security implementation
+- JWT-based authentication
+- Role-Based Access Control (RBAC)
+- Secure API development
+- Spring Security integration
+- Full-stack architecture
+- React + TypeScript development
+- REST API design
 
 ---
 
@@ -287,5 +384,5 @@ This project demonstrates:
 
 **Komal Narawade**
 
-GitHub:
+GitHub  
 https://github.com/komalgithub677
