@@ -3,46 +3,62 @@ package com.rbac.auth.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.DefaultSecurityFilterChain;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.rbac.auth.security.JwtAuthenticationFilter;
 
 @Configuration
 public class SecurityConfig {
-	         @Autowired
-	         private JwtAuthenticationFilter jwtFilter;
-             @Bean
-             public BCryptPasswordEncoder passwordEncoder() {
-            	 return new BCryptPasswordEncoder();
-             }
-             
-             @Bean
-             public DefaultSecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-                 http
-                 .csrf(csrf -> csrf.disable())
-                 .authorizeHttpRequests(auth -> auth
+    @Autowired
+    private JwtAuthenticationFilter jwtFilter;
 
-                     .requestMatchers(
-                    		    "/api/users/register",
-                    		    "/api/users/login",
-                    		    "/api/users/all",
-                    		    "/swagger-ui/**",
-                    		    "/swagger-ui.html",
-                    		    "/v3/api-docs/**"
-                    		).permitAll()
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-                     .requestMatchers("/api/users/admin/**").hasRole("ADMIN")
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-                     .requestMatchers("/api/users/user/**").hasAnyRole("USER","ADMIN")
+        http
+            .csrf(csrf -> csrf.disable())
 
-                     .anyRequest().authenticated()
-                 )
-                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+            .authorizeHttpRequests(auth -> auth
 
-                 return http.build();
-             }
+                // Public APIs
+                .requestMatchers(
+                        "/api/users/register",
+                        "/api/users/login",
+                        "/api/public",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html",
+                        "/v3/api-docs/**"
+                ).permitAll()
+
+                // ADMIN APIs
+                .requestMatchers("/api/users/admin/**").hasRole("ADMIN")
+
+                // USER APIs
+                .requestMatchers("/api/users/user/**").hasAnyRole("USER", "ADMIN")
+
+                .anyRequest().authenticated()
+            )
+
+            // Disable session (JWT based auth)
+            .sessionManagement(session ->
+                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            )
+
+            // JWT filter
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
+    }
 }
