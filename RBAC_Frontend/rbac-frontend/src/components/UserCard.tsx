@@ -18,7 +18,6 @@ function UserCard(){
           <span className="text-sm bg-blue-100 text-blue-600 px-2 py-1 rounded">
             USER
           </span>
-
         </div>
 
       </div>
@@ -28,8 +27,27 @@ function UserCard(){
         <p><strong>Email:</strong> {email}</p>
 
         <p className="text-sm text-gray-500">
-          You can access user-level dashboard content.
+          You have access to user-level dashboard content.
         </p>
+
+      </div>
+
+      {/* User Features */}
+
+      <div className="mt-6">
+
+        <h3 className="font-semibold text-gray-700 mb-2">
+          User Access
+        </h3>
+
+        <ul className="list-disc ml-5 text-sm text-gray-600 space-y-1">
+
+          <li>View Personal Profile</li>
+          <li>Access Learning Resources</li>
+          <li>Update Profile Information</li>
+          <li>View Personal Dashboard</li>
+
+        </ul>
 
       </div>
 
